@@ -1,0 +1,26 @@
+close all
+clear all
+clc
+urlwrite('http://www.tsau.ac.me/ISAU/P4/datasetD3.mat','datasetD3.mat')
+load datasetD3.mat
+p=datasetD3.uzorak{8}.p;
+t=datasetD3.uzorak{8}.t;
+p1=repmat(p,1,50);
+t1=repmat(t,1,50);
+net1=feedforwardnet(25);
+[net1,tr]=train(net1,p1,t1);
+figure(1)
+plot(p,t,'x')
+hold on
+plot(p, net1(p),'o')
+xlabel('p');
+ylabel('t');
+figure(2)
+plot(tr.epoch,10*log10(tr.perf))
+xlabel('Epohe')
+ylabel('MSE')
+p=[-2:0.001:2];
+figure(3)
+plot(p, net1(p))
+xlabel('p');
+ylabel('Izlaz FFNN')
